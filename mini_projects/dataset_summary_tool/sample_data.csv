@@ -1,6 +1,11 @@
-country,year,gdp,inflation
-India,2020,2667,
-India,2021,3176,5.1
-Germany,2020,3846,0.5
-Germany,2021,,3.1
-Japan,2021,4937,0.0
+country,year,gdp,inflation,notes
+India,2020,2667,,missing inflation
+India,2021,3176,5.1,normal
+Germany,2020,3846,0.5,normal
+Germany,2021,,3.1,missing gdp
+Japan,2021,4937,0.0,zero inflation
+USA,2022,25000,abc,invalid inflation
+France,2022,2800,4.2,
+,2023,3000,2.5,missing country
+Brazil,not_a_year,1800,6.2,invalid year
+UK,2023,3100,,missing inflation

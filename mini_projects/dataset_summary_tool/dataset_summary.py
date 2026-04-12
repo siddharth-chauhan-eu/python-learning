@@ -1,3 +1,13 @@
+"""
+dataset_summary.py
+
+A command-line tool to analyze CSV datasets and generate:
+- Human-readable text summary
+- Structured JSON report
+
+Handles standard CSVs and wide-format datasets (e.g., World Bank exports).
+"""
+
 import csv
 import sys
 import json
@@ -5,25 +15,83 @@ from pathlib import Path
 
 
 def read_csv_file(file_path):
-    with open(file_path, mode="r", newline="", encoding="utf-8") as file:
-        reader = csv.DictReader(file)
-        return list(reader)
+    """
+    Read and parse a CSV file into a list of dictionaries.
+
+    Strategy:
+    1. Attempt standard CSV parsing.
+    2. Fallback: detect correct header row for wide/messy datasets.
+
+    Args:
+        file_path (Path): Path to the CSV file.
+
+    Returns:
+        list[dict]: Parsed rows, or empty list if parsing fails.
+    """
+    with open(file_path, mode="r", encoding="utf-8-sig") as file:
+        lines = file.readlines()
+
+    # Step 1: Standard CSV parsing
+    try:
+        reader = csv.DictReader(lines)
+        rows = list(reader)
+
+        if rows:
+            columns = [c for c in rows[0].keys() if c and c.strip()]
+            if len(columns) >= 3:
+                return rows
+    except Exception:
+        pass  # Fail silently, fallback will handle
+
+    # Step 2: Fallback for wide datasets (e.g., World Bank format)
+    for i, line in enumerate(lines):
+        if line.count(",") >= 10:  # heuristic: wide dataset
+            try:
+                reader = csv.DictReader(lines[i:])
+                rows = list(reader)
+
+                if rows:
+                    columns = [c for c in rows[0].keys() if c and c.strip()]
+                    if len(columns) >= 3:
+                        return rows
+            except Exception:
+                continue
+
+    return []
 
 
 def count_missing_values(rows, columns):
+    """
+    Count missing (empty or null) values per column.
+
+    Args:
+        rows (list[dict]): Dataset rows.
+        columns (list[str]): Column names.
+
+    Returns:
+        dict: Column → missing count.
+    """
     missing = {}
 
     for col in columns:
-        missing[col] = 0
-        for row in rows:
-            value = row.get(col, "")
-            if value is None or value.strip() == "":
-                missing[col] += 1
+        missing[col] = sum(
+            1 for row in rows
+            if row.get(col) is None or (row.get(col) or "").strip() == ""
+        )
 
     return missing
 
 
 def is_number(value):
+    """
+    Check if a value can be converted to a float.
+
+    Args:
+        value (str): Input value.
+
+    Returns:
+        bool: True if numeric, else False.
+    """
     try:
         float(value)
         return True
@@ -32,18 +100,34 @@ def is_number(value):
 
 
 def analyze_column_types(rows, columns):
+    """
+    Infer data type of each column.
+
+    Types:
+        - numeric
+        - non-numeric
+        - mixed
+        - empty
+
+    Args:
+        rows (list[dict])
+        columns (list[str])
+
+    Returns:
+        dict: Column → inferred type.
+    """
     types = {}
 
     for col in columns:
         values = [(row.get(col) or "").strip() for row in rows]
-        non_empty_values = [v for v in values if v != ""]
+        non_empty = [v for v in values if v]
 
-        numeric_count = sum(1 for v in non_empty_values if is_number(v))
-        total_non_empty = len(non_empty_values)
+        numeric_count = sum(1 for v in non_empty if is_number(v))
+        total = len(non_empty)
 
-        if total_non_empty == 0:
+        if total == 0:
             types[col] = "empty"
-        elif numeric_count == total_non_empty:
+        elif numeric_count == total:
             types[col] = "numeric"
         elif numeric_count > 0:
             types[col] = "mixed"
@@ -54,46 +138,55 @@ def analyze_column_types(rows, columns):
 
 
 def generate_summary(rows, file_name):
+    """
+    Generate dataset summary (text + structured metrics).
+
+    Args:
+        rows (list[dict])
+        file_name (str)
+
+    Returns:
+        tuple:
+            - summary_text (str)
+            - missing (dict)
+            - missing_percentage (dict)
+            - column_types (dict)
+            - columns (list)
+    """
     if not rows:
-        return "Empty dataset"
+        return "Empty dataset", {}, {}, {}, []
 
-    columns = list(rows[0].keys())
+    columns = [col for col in rows[0].keys() if col and col.strip()]
 
-    summary = []
-    summary.append("=" * 30)
-    summary.append("Dataset Summary Report")
-    summary.append(f"File: {file_name}")
-    summary.append("")
-
-    summary.append(f"Total Rows: {len(rows)}")
-    summary.append(f"Total Columns: {len(columns)}")
-    summary.append("")
-
-    summary.append("Columns:")
-    for col in columns:
-        summary.append(f"- {col}")
-
-    summary.append("")
-    summary.append("Missing Values:")
+    summary = [
+        "=" * 30,
+        "Dataset Summary Report",
+        f"File: {file_name}",
+        "",
+        f"Total Rows: {len(rows)}",
+        f"Total Columns: {len(columns)}",
+        "",
+        "Columns:",
+        *[f"- {col}" for col in columns],
+        "",
+        "Missing Values:"
+    ]
 
     missing = count_missing_values(rows, columns)
-    for col, count in missing.items():
-        summary.append(f"- {col}: {count}")
+    summary.extend(f"- {col}: {count}" for col, count in missing.items())
 
-    summary.append("")
-    summary.append("Missing Percentage:")
+    summary.append("\nMissing Percentage:")
     missing_percentage = {}
+
     for col, count in missing.items():
         percent = (count / len(rows)) * 100
         missing_percentage[col] = round(percent, 2)
         summary.append(f"- {col}: {percent:.2f}%")
 
-    summary.append("")
-    summary.append("Column Types (inferred):")
+    summary.append("\nColumn Types (inferred):")
 
     column_types = analyze_column_types(rows, columns)
-    for col, col_type in column_types.items():
-        summary.append(f"- {col}: {col_type}")
+    summary.extend(f"- {col}: {ctype}" for col, ctype in column_types.items())
 
     summary.append("=" * 30)
 
@@ -101,16 +194,28 @@ def generate_summary(rows, file_name):
 
 
 def save_report(text, output_path):
+    """
+    Save text report to file.
+    """
     with open(output_path, "w", encoding="utf-8") as file:
         file.write(text)
 
 
 def save_json_report(data, output_path):
+    """
+    Save structured JSON report.
+    """
     with open(output_path, "w", encoding="utf-8") as file:
-        json.dump(data, file, indent=4)
+        json.dump(data, file, indent=4, sort_keys=True)
 
 
 def main():
+    """
+    CLI entry point.
+
+    Usage:
+        python dataset_summary.py <csv_file>
+    """
     if len(sys.argv) < 2:
         print("Usage: python dataset_summary.py <csv_file>")
         return
