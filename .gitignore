@@ -208,3 +208,4 @@ __marimo__/
 
 # Project-specific generated outputs
 mini_projects/dataset_summary_tool/summary_report.txt
+mini_projects/dataset_summary_tool/summary_report.json
