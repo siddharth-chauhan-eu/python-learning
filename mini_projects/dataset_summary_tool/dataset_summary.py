@@ -1,4 +1,5 @@
 import csv
+import sys
 from pathlib import Path
 
 
@@ -25,7 +26,7 @@ def is_number(value):
     try:
         float(value)
         return True
-    except:
+    except ValueError:
         return False
 
 
@@ -64,12 +65,26 @@ def generate_summary(rows, file_name):
 
     summary.append("")
     summary.append("Column Types (inferred):")
+
     for col in columns:
+        values = [
+            (row.get(col) or "").strip()
+            for row in rows
+        ]
+
+        non_empty_values = [v for v in values if v != ""]
+
         numeric_count = sum(
-            1 for row in rows if is_number(row.get(col, ""))
+            1 for v in non_empty_values if is_number(v)
         )
-        if numeric_count > 0:
-            summary.append(f"- {col}: numeric-like")
+        total_non_empty = len(non_empty_values)
+
+        if total_non_empty == 0:
+            summary.append(f"- {col}: empty")
+        elif numeric_count == total_non_empty:
+            summary.append(f"- {col}: numeric")
+        elif numeric_count > 0:
+            summary.append(f"- {col}: mixed")
         else:
             summary.append(f"- {col}: non-numeric")
 
@@ -84,10 +99,12 @@ def save_report(text, output_path):
 
 
 def main():
-    base_path = Path(__file__).parent
+    if len(sys.argv) < 2:
+        print("Usage: python dataset_summary.py <csv_file>")
+        return
 
-    input_file = base_path / "sample_data.csv"
-    output_file = base_path / "summary_report.txt"
+    input_file = Path(sys.argv[1])
+    output_file = Path(__file__).parent / "summary_report.txt"
 
     if not input_file.exists():
         print("CSV file not found.")
@@ -98,7 +115,7 @@ def main():
     save_report(summary, output_file)
 
     print("Summary generated successfully.")
-    print("Check summary_report.txt")
+    print(f"Processed file: {input_file.name}")
 
 
 if __name__ == "__main__":
