@@ -8,7 +8,7 @@ A command-line tool that analyzes CSV datasets and generates a human-readable te
 
 ## Motivation
 
-Working with public datasets (e.g., World Bank, Eurostat) requires an initial step: understanding structure before analysis. This tool provides a single-command way to inspect columns, missing values, and basic data types.
+Working with public datasets (e.g., World Bank) requires an initial step: understanding structure before analysis. This tool provides a single-command way to inspect columns, missing values, and basic data types.
 
 ---
 
