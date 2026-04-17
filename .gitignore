@@ -207,6 +207,6 @@ marimo/_lsp/
 __marimo__/
 
 # Project-specific generated outputs
-mini_projects/dataset_summary_tool/summary_report.txt
-mini_projects/dataset_summary_tool/summary_report.json
+projects/dataset-summary/summary_report.txt
+projects/dataset-summary/summary_report.json
 data/

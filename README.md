@@ -17,15 +17,14 @@ This repository includes:
 
 - core Python learning
 - focused exercises
-- small Python mini-projects
+- Python projects
 
 ## Repository Structure
 
 ```text
 python-learning/
-├── README.md
-├── .gitignore
-├── LICENSE
-├── app.py
 ├── exercises/
-└── mini_projects/
+├── projects/
+├── README.md
+├── LICENSE
+└── .gitignore

@@ -41,11 +41,11 @@ def read_csv_file(file_path):
             if len(columns) >= 3:
                 return rows
     except Exception:
-        pass  # Fail silently, fallback will handle
+        pass  # Fallback handles failure
 
-    # Step 2: Fallback for wide datasets (e.g., World Bank format)
+    # Step 2: Fallback for wide datasets
     for i, line in enumerate(lines):
-        if line.count(",") >= 10:  # heuristic: wide dataset
+        if line.count(",") >= 10:
             try:
                 reader = csv.DictReader(lines[i:])
                 rows = list(reader)
@@ -63,19 +63,13 @@ def read_csv_file(file_path):
 def count_missing_values(rows, columns):
     """
     Count missing (empty or null) values per column.
-
-    Args:
-        rows (list[dict]): Dataset rows.
-        columns (list[str]): Column names.
-
-    Returns:
-        dict: Column → missing count.
     """
     missing = {}
 
     for col in columns:
         missing[col] = sum(
-            1 for row in rows
+            1
+            for row in rows
             if row.get(col) is None or (row.get(col) or "").strip() == ""
         )
 
@@ -85,12 +79,6 @@ def count_missing_values(rows, columns):
 def is_number(value):
     """
     Check if a value can be converted to a float.
-
-    Args:
-        value (str): Input value.
-
-    Returns:
-        bool: True if numeric, else False.
     """
     try:
         float(value)
@@ -102,19 +90,6 @@ def is_number(value):
 def analyze_column_types(rows, columns):
     """
     Infer data type of each column.
-
-    Types:
-        - numeric
-        - non-numeric
-        - mixed
-        - empty
-
-    Args:
-        rows (list[dict])
-        columns (list[str])
-
-    Returns:
-        dict: Column → inferred type.
     """
     types = {}
 
@@ -140,18 +115,6 @@ def analyze_column_types(rows, columns):
 def generate_summary(rows, file_name):
     """
     Generate dataset summary (text + structured metrics).
-
-    Args:
-        rows (list[dict])
-        file_name (str)
-
-    Returns:
-        tuple:
-            - summary_text (str)
-            - missing (dict)
-            - missing_percentage (dict)
-            - column_types (dict)
-            - columns (list)
     """
     if not rows:
         return "Empty dataset", {}, {}, {}, []
@@ -169,7 +132,7 @@ def generate_summary(rows, file_name):
         "Columns:",
         *[f"- {col}" for col in columns],
         "",
-        "Missing Values:"
+        "Missing Values:",
     ]
 
     missing = count_missing_values(rows, columns)
@@ -194,17 +157,11 @@ def generate_summary(rows, file_name):
 
 
 def save_report(text, output_path):
-    """
-    Save text report to file.
-    """
     with open(output_path, "w", encoding="utf-8") as file:
         file.write(text)
 
 
 def save_json_report(data, output_path):
-    """
-    Save structured JSON report.
-    """
     with open(output_path, "w", encoding="utf-8") as file:
         json.dump(data, file, indent=4, sort_keys=True)
 
@@ -212,9 +169,6 @@ def save_json_report(data, output_path):
 def main():
     """
     CLI entry point.
-
-    Usage:
-        python dataset_summary.py <csv_file>
     """
     if len(sys.argv) < 2:
         print("Usage: python dataset_summary.py <csv_file>")
@@ -231,6 +185,11 @@ def main():
         return
 
     rows = read_csv_file(input_file)
+
+    # Failure handling
+    if not rows:
+        print("Parsing failed: unsupported structure or delimiter")
+        return
 
     summary_text, missing, missing_percentage, column_types, columns = generate_summary(
         rows, input_file.name
