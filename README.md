@@ -9,7 +9,7 @@
 | Module | Description |
 | --- | --- |
 | [`01-python-fundamentals/`](01-python-fundamentals/README.md) | Core language concepts through exercises and a CLI project |
-| [`02-data-analytics/`](02-data-analytics/README.md) | Applied data analytics from library basics to publication-quality research |
+| [`02-data-analytics/`](02-data-analytics/README.md) | Applied data analytics from library basics to structured, evidence-aware analysis |
 
 ---
 
@@ -28,7 +28,7 @@ Eleven focused exercises covering the core Python language, followed by a standa
 
 ## 02 — Data Analytics
 
-Applied analytics using the 2023 Data Jobs dataset throughout, structured as a progression from library fundamentals to a publication-quality multi-notebook study.
+Applied analytics centered on the 2023 Data Jobs dataset, progressing from library fundamentals to an evidence-aware multi-notebook study.
 
 | Component | Contents |
 | --- | --- |
@@ -56,6 +56,7 @@ python-learning/
 │       ├── project/
 │       │   └── job-market-analysis/    # 5-notebook India market analysis
 │       └── README.md
+├── .gitattributes
 ├── .gitignore
 ├── LICENSE
 ├── README.md
@@ -70,4 +71,10 @@ python-learning/
 pip install -r requirements.txt
 ```
 
-Module 01 uses the standard library only. Module 02 requires `datasets` · `pandas` · `matplotlib` · `seaborn`.
+Module 01 uses the standard library only. Module 02 requires `datasets` · `pandas` · `matplotlib` · `numpy` · `seaborn`.
+
+---
+
+## License
+
+This repository is licensed under the [MIT License](LICENSE).

@@ -1,8 +1,8 @@
 # data-jobs-analysis
 
-> Applied data analytics using Germany's 2023 data-job market as the working dataset.
+> Applied data analytics using 2023 data-job postings, with Germany as the main working market.
 
-Exercises build the data-oriented Python patterns needed before touching a DataFrame. Notebooks apply those skills progressively — from library fundamentals through demand analysis, trend tracking, and compensation investigation. The project applies the same methodology to the Indian market at publication quality.
+Exercises build the data-oriented Python patterns needed before touching a DataFrame. Notebooks apply those skills progressively — from library fundamentals through demand analysis, trend tracking, and compensation investigation. The project applies the same methodology in a structured five-notebook study of the Indian market.
 
 ---
 
@@ -12,7 +12,7 @@ Exercises build the data-oriented Python patterns needed before touching a DataF
 | --- | --- |
 | `exercises/` | 2 exercises covering data-oriented Python patterns |
 | `notebooks/` | 5 analysis notebooks with figures |
-| `project/job-market-analysis/` | Publication-quality analysis of India's data-job market |
+| `project/job-market-analysis/` | Structured analysis of India's data-job market |
 
 ---
 
@@ -37,7 +37,7 @@ All notebooks use the [Luke Barousse Data Jobs dataset](https://huggingface.co/d
 | --- | --- | --- |
 | 01 | `01_pandas_basics.ipynb` | DataFrame operations · filtering · `groupby` · salary statistics |
 | 02 | `02_matplotlib_basics.ipynb` | First chart: median salary horizontal bar |
-| 03 | `03_job_demand_analysis.ipynb` | Role demand · hiring seasonality · monthly trend lines |
+| 03 | `03_job_demand_analysis.ipynb` | Role demand · posting seasonality · monthly trend lines |
 | 04 | `04_trending_skills_analysis.ipynb` | Skill frequency · monthly skill trends · heatmap |
 | 05 | `05_skill_pay_analysis.ipynb` | Highest paying skills · in-demand skills · reach vs pay |
 
@@ -59,17 +59,17 @@ Produces the first visualisation from the dataset: a horizontal bar chart of med
 
 ### 03 — Job Demand Analysis
 
-Identifies the most advertised data roles in Germany and maps how hiring volume changes across the calendar year.
+Identifies the most advertised data roles in Germany and maps how job-posting volume changes across the calendar year.
 
 **Key findings:**
 - Data Analyst was the most frequently advertised role, with more than 7,000 postings
 - Data Scientist and Data Engineer followed closely, confirming broad demand across all three core functions
-- Hiring volume declined mid-year and reached its lowest point in May
-- October recorded the highest hiring activity of the year
+- Job-posting volume declined mid-year and reached its lowest point in May
+- October recorded the highest job-posting activity of the year
 
 ![Most advertised data roles in Germany (2023)](notebooks/figures/job_postings_by_data_role_germany_2023.png)
 
-![Monthly hiring activity for Data Engineers (Germany, 2023)](notebooks/figures/job_postings_by_month_data_engineer_germany_2023.png)
+![Monthly job-posting activity for Data Engineers (Germany, 2023)](notebooks/figures/job_postings_by_month_data_engineer_germany_2023.png)
 
 ![Monthly demand trends for top data roles (Germany, 2023)](notebooks/figures/job_postings_by_month_top_data_roles_germany_2023.png)
 
@@ -113,7 +113,7 @@ Compares compensation evidence with demand evidence for Data Engineer skills in 
 
 ### job-market-analysis
 
-A publication-quality multi-notebook study of India's data-job market using the same dataset. Covers market structure, skill architecture, skill evolution, salary analysis, and a Pareto frontier analysis of Data Analyst skill strategy.
+A structured multi-notebook study of India's data-job market using the same dataset. Covers market structure, skill architecture, skill evolution, salary analysis, and a Pareto frontier analysis of Data Analyst skill strategy.
 
 See [`project/job-market-analysis/README.md`](project/job-market-analysis/README.md) for full documentation.
 
@@ -160,6 +160,12 @@ data-jobs-analysis/
 
 [Luke Barousse Data Jobs dataset](https://huggingface.co/datasets/lukebarousse/data_jobs) — job postings from calendar year 2023.
 
+- Upstream license: Apache-2.0
+- Dataset revision: `1d815e9ce232eb27db11939c44eb048fe6d2e9ab`
+- `data_jobs.csv` SHA-256: `635241ed09ccee18bdae1f83b45f26d6759e0aa2513c529f6190e9054062436c`
+
+The notebooks pin the Hugging Face dataset revision so the analytical input does not silently change when upstream `main` changes. The dataset itself is not redistributed in this repository.
+
 ---
 
 ## Requirements
@@ -168,4 +174,4 @@ data-jobs-analysis/
 pip install -r requirements.txt
 ```
 
-Dependencies: `datasets` · `pandas` · `matplotlib` · `seaborn`
+Dependencies: `datasets` · `pandas` · `matplotlib` · `numpy` · `seaborn`

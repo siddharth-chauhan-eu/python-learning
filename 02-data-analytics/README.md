@@ -1,8 +1,8 @@
 # 02 — Data Analytics
 
-> From DataFrame basics to publication-quality research, using real-world job market data throughout.
+> From DataFrame basics to evidence-aware analysis using real-world job-posting data.
 
-This module builds applied data analytics capability in a single coherent arc — exercises establish the Python patterns needed to handle structured data, notebooks develop library skills and apply them to Germany's data-job market, and a project delivers the same analysis at publication quality for the Indian market.
+This module builds applied data analytics capability in a single coherent arc — exercises establish Python patterns for structured data, notebooks develop library skills and apply them to Germany's data-job market, and a project extends the methodology into a structured five-notebook study of India.
 
 ---
 
@@ -27,7 +27,7 @@ This module builds applied data analytics capability in a single coherent arc �
 
 ## Dataset
 
-All work in this module uses the [Luke Barousse Data Jobs dataset](https://huggingface.co/datasets/lukebarousse/data_jobs) — a collection of data-role job postings from calendar year 2023, covering multiple countries and role types.
+The notebooks and project use the [Luke Barousse Data Jobs dataset](https://huggingface.co/datasets/lukebarousse/data_jobs) — a collection of data-role job postings from calendar year 2023, covering multiple countries and role types. The pure-Python exercises use small in-repository examples rather than the external dataset.
 
 ---
 
@@ -37,7 +37,7 @@ All work in this module uses the [Luke Barousse Data Jobs dataset](https://huggi
 pip install -r requirements.txt
 ```
 
-Dependencies: `datasets` · `pandas` · `matplotlib` · `seaborn`
+Dependencies: `datasets` · `pandas` · `matplotlib` · `numpy` · `seaborn`
 
 ---
 

@@ -5,7 +5,7 @@
 This project investigates the structure of India's data-jobs market using 51,088 job
 postings from the 2023 Data Jobs dataset. The analysis addresses five connected
 questions — market structure, skill demand, skill evolution, compensation evidence,
-and Data Analyst skill strategy — across five reproducible notebooks.
+and Data Analyst skill strategy — across five notebooks with a pinned dataset revision.
 
 ---
 
@@ -16,16 +16,16 @@ Analyst roles account for **75.3%** of India postings.
 
 ![Role market structure — share of India postings by role family](figures/01_role_market_structure.png)
 
-Bengaluru is the largest named hiring hub, accounting for the majority of city-specific
-postings. However, generic `India` and `Anywhere` labels cover a substantial share of
-demand, making location precision imperfect.
+Bengaluru is the largest named job-posting location at **22.5%** of India postings.
+However, generic `India` and `Anywhere` labels cover a substantial share of demand,
+making location precision imperfect.
 
 ![Location concentration — share of India postings by location label](figures/01_location_concentration.png)
 
 The ten most active employers contribute only **5.8%** of postings (Employer HHI ≈ 9),
-confirming that demand is highly fragmented across the employer base. Candidates can
-target geographic hubs but should not limit their employer strategy to a few visible
-companies.
+confirming that demand is highly fragmented across the employer base. The results show
+geographic concentration in visible postings without comparable concentration among
+employers.
 
 ---
 
@@ -41,8 +41,8 @@ signal of role specialisation.
 
 ![Role differentiators — prevalence spread by skill and leading role](figures/02_role_differentiators.png)
 
-Employer demand is structured around skill bundles rather than isolated tools.
-Python and SQL appear together in over **40%** of India data-job postings.
+Advertised skill demand is structured around recurring skill bundles rather than isolated tools.
+Python and SQL appear together in **41.1%** of India data-job postings.
 
 ![Most in-demand skill bundles — pair prevalence across India data jobs](figures/02_skill_bundles.png)
 
@@ -50,9 +50,9 @@ Python and SQL appear together in over **40%** of India data-job postings.
 
 ### Skill Evolution
 
-The Data Analyst skill core remained broadly stable during 2023. Power BI recorded
-the largest positive half-year movement among established skills at **+4.4 percentage
-points**. Spark experienced the largest decline.
+The established skill mix remained broadly stable during 2023. Among skills reaching
+at least 3% prevalence in either half, PyTorch recorded the largest positive movement
+at **+1.5 percentage points**, while Spark recorded the largest decline at **−3.3 points**.
 
 ![Half-year skill prevalence changes among established skills](figures/03_halfyear_skill_changes.png)
 
@@ -148,9 +148,12 @@ strength rather than raw counts alone.
 
 ## Data and Limitations
 
-**Source:** [Luke Barousse Data Jobs dataset](https://huggingface.co/datasets/lukebarousse/data_jobs)
+- **Source:** [Luke Barousse Data Jobs dataset](https://huggingface.co/datasets/lukebarousse/data_jobs)
+- **Upstream license:** Apache-2.0
+- **Dataset revision:** `1d815e9ce232eb27db11939c44eb048fe6d2e9ab`
+- **`data_jobs.csv` SHA-256:** `635241ed09ccee18bdae1f83b45f26d6759e0aa2513c529f6190e9054062436c`
 
-The dataset contains job postings from calendar year 2023. Important limitations:
+The dataset contains job postings from calendar year 2023. The notebooks pin the revision above so the analytical input is stable across reruns. Important limitations:
 
 - Posting volume is not equivalent to hires or unique vacancies.
 - Duplicate or syndicated listings may inflate demand.

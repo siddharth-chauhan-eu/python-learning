@@ -80,8 +80,6 @@ python dataset_summary.py sample_data.csv
     └── dataset-summary/
         ├── dataset_summary.py
         ├── sample_data.csv
-        ├── summary_report.json
-        ├── summary_report.txt
         └── README.md
 ```
 

@@ -175,10 +175,10 @@ def main():
         return
 
     input_file = Path(sys.argv[1])
-    base_path = Path(__file__).parent
+    output_path = input_file.parent
 
-    txt_output = base_path / "summary_report.txt"
-    json_output = base_path / "summary_report.json"
+    txt_output = output_path / "summary_report.txt"
+    json_output = output_path / "summary_report.json"
 
     if not input_file.exists():
         print("CSV file not found.")
