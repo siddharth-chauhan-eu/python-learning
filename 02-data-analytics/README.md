@@ -18,10 +18,10 @@ This module builds applied data analytics capability in a single coherent arc �
 
 | Phase | Location | Focus |
 | --- | --- | --- |
-| Foundations | `exercises/` | Role matching · type conversion · data cleaning in pure Python |
-| Library basics | `notebooks/01–02` | Pandas operations and first Matplotlib visualisation |
-| Analysis | `notebooks/03–05` | Demand, trends, and compensation for Germany's data-job market |
-| Project | `project/job-market-analysis/` | Five-notebook structured study of India's data-job market |
+| Foundations | `data-jobs-analysis/exercises/` | Role matching · type conversion · data cleaning in pure Python |
+| Library basics | `data-jobs-analysis/notebooks/01–02` | Pandas operations and first Matplotlib visualisation |
+| Analysis | `data-jobs-analysis/notebooks/03–05` | Demand, trends, and compensation for Germany's data-job market |
+| Project | `data-jobs-analysis/project/job-market-analysis/` | Five-notebook structured study of India's data-job market |
 
 ---
 
